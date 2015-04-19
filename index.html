@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Denbt Snowball Avalance Calculator</title>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="script.js"> </script>
+
+	<style> 
+	#submit-area div {
+		width: 50%;
+		float: left;
+	}
+
+	body {
+		max-width: 900px;
+	}
+
+	#main-container {
+		max-width: 800px;
+	}
+	</style>
+</head>
+<body>
+	<div id="main-container">
+		<div id="results-container">
+			<section id="interest-first">
+				<span> Total Paid <span class="total-paid"></span></span>
+				<span> Months till payoff <span class="total-months"></span></span>
+			</section>
+			<section id="balance-first">
+				<span> Total Paid <span class="total-paid"></span></span>
+				<span> Months till payoff <span class="total-months"></span></span>
+			</section>
+			<section id="minimum">
+				<span> Total Paid <span class="total-paid"></span></span>
+				<span> Months till payoff <span class="total-months"></span></span>
+			</section>
+		</div>
+		<div id="entry-container">
+			<form name="loanEntryForm" id="loanEntryForm" onsubmit="mySubmit(this); return false;">
+				<table class="entry">
+					<thead>
+						<tr>
+							<td>Name</td>
+							<td>Balance</td>
+							<td>Minimum Payment</td>
+							<td>Interest Rate e.g (9.5)</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type="text" name="name" value="tom" required></td>
+							<td><input type="number" name="bal" value="100" required step="any"></td>
+							<td><input type="number" name="payment" value="10" required step="any"></td>
+							<td><input type="number" name="intRate" value="1" required step="any"></td>
+						</tr>
+						<tr>
+							<td><input type="text" name="name" value="billy" required></td>
+							<td><input type="number" name="bal" value="200" required step="any"></td>
+							<td><input type="number" name="payment" value="20" required step="any"></td>
+							<td><input type="number" name="intRate" value="2" required step="any"></td>
+						</tr>
+						<tr>
+							<td><input type="text" name="name" value="lasty" required></td>
+							<td><input type="number" name="bal" value="300" required step="any"></td>
+							<td><input type="number" name="payment" value="33" required step="any"></td>
+							<td><input type="number" name="intRate" value="3" required step="any"></td>
+						</tr>
+					</tbody>
+				</table>
+				<div id="submit-area">
+					<div id="extra-money"><input id="extraMoney"type="number" name="extraMoney" value="0"> Extra money </div>
+					<div id="submit"><input type="submit" value="calculate"></div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
