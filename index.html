@@ -12,6 +12,12 @@
 		width: 50%;
 		float: left;
 	}
+	#extra-money {
+		float: left;
+	}
+	#submit{
+		margin: 15px 30px 0;
+	}
 
 	body {
 		max-width: 900px;
@@ -51,27 +57,27 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><input type="text" name="name" value="tom" required></td>
+							<td><input type="text" name="name" value="chase" required></td>
 							<td><input type="number" name="bal" value="100" required step="any"></td>
 							<td><input type="number" name="payment" value="10" required step="any"></td>
 							<td><input type="number" name="intRate" value="1" required step="any"></td>
 						</tr>
 						<tr>
-							<td><input type="text" name="name" value="billy" required></td>
+							<td><input type="text" name="name" value="capital one" required></td>
 							<td><input type="number" name="bal" value="200" required step="any"></td>
 							<td><input type="number" name="payment" value="20" required step="any"></td>
 							<td><input type="number" name="intRate" value="2" required step="any"></td>
 						</tr>
 						<tr>
-							<td><input type="text" name="name" value="lasty" required></td>
+							<td><input type="text" name="name" value="toyota" required></td>
 							<td><input type="number" name="bal" value="300" required step="any"></td>
 							<td><input type="number" name="payment" value="33" required step="any"></td>
 							<td><input type="number" name="intRate" value="3" required step="any"></td>
 						</tr>
 					</tbody>
 				</table>
+				<div id="extra-money"><span>Extra money</span><input id="extraMoney"type="number" name="extraMoney" value="0"></div>
 				<div id="submit-area">
-					<div id="extra-money"><input id="extraMoney"type="number" name="extraMoney" value="0"> Extra money </div>
 					<div id="submit"><input type="submit" value="calculate"></div>
 				</div>
 			</form>

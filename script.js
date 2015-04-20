@@ -148,7 +148,7 @@ function addProperties(list){
 function runSimulation(list, method, extraMoney, payMinimum){
 	var summaryList = JSON.parse( JSON.stringify( list ) );
 	summaryList.payMinimum = payMinimum;
-	console.log(summaryList.payMinimum);
+	console.log(summaryList);
 
 	addProperties(summaryList);
 	gettotalBal(summaryList);
@@ -212,20 +212,23 @@ jQuery.fn.formToJson = function (fieldsPerItem){
 }
 
 function mySubmit (item) {
-	var debtList;
+	var debtList, extraMoney;
 
     debtList = $("#loanEntryForm").formToJson(4);
+    extraMoney = $('#extraMoney').val() || 0;
       
-
-	var interestFirst = runSimulation(debtList,'interest', 0, false);
-	var balanceFirst = runSimulation(debtList,'balance', 0, false);
+    console.log(extraMoney);
+	var interestFirst = runSimulation(debtList,'interest', extraMoney, false);
+	var balanceFirst = runSimulation(debtList,'balance', extraMoney, false);
 	var minimum = runSimulation(debtList,'', 0, true);
 
 	displayResults('interest-first', interestFirst);
 	displayResults('balance-first', balanceFirst);
 	displayResults('minimum', minimum);
 
-	console.log(item.name.value);
+	console.log("int first", interestFirst);
+	console.log("bal first", balanceFirst);
+	console.log("minimum", runSimulation);
 }
 
 function displayResults(method, list){
@@ -236,9 +239,7 @@ function displayResults(method, list){
 	$container.find('.total-months').html(list.months);
 }
 
-console.log("run1", run1);
-console.log("run2", run2);
-console.log("run3", run3);
+
 
 var single = [
 	{
