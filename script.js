@@ -139,7 +139,6 @@ function addProperties(list){
 function runSimulation(list, method, extraMoney, payMinimum){
 	var summaryList = JSON.parse( JSON.stringify( list ) );
 	summaryList.payMinimum = payMinimum;
-	console.log(summaryList);
 
 	addProperties(summaryList);
 	gettotalBal(summaryList);
@@ -168,9 +167,6 @@ var run1 = runSimulation(a1,'interest', 0, false);
 var run2 = runSimulation(a2,'balance', 0, false);
 var run3 = runSimulation(a3,'', 0, true);
 
-console.log(run1);
-console.log(run2);
-console.log(run3);
 
 function ConvertFormToJSON(form){
     var array = jQuery(form).serializeArray();
@@ -189,7 +185,6 @@ function ConvertFormToJSON(form){
 }
 jQuery.fn.formToJson = function (fieldsPerItem){
 	var userInput = this.serializeArray();
-	// console.log("user input", userInput)
 	var array = [];
 	var json = {};
 	var key, val;
@@ -214,12 +209,9 @@ function mySubmit (item) {
     extraMoney = $('#extraMoney').val() || 0;
     extraMoney = parseInt(extraMoney);
       
-    console.log('extramoney', extraMoney);
 	var interestFirst = runSimulation(debtList,'interest', extraMoney, false);
 	var balanceFirst = runSimulation(debtList,'balance', extraMoney, false);
 	var minimum = runSimulation(debtList,'', 0, true);
-
-	console.log('extramoney', extraMoney);
 
 	displayResults('interest-first', interestFirst);
 	displayResults('balance-first', balanceFirst);
@@ -263,4 +255,3 @@ var single = [
 ];
 
 var runSingle = runSimulation(single,'balance', 0, false);
-console.log("single", runSingle);
