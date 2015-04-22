@@ -1,40 +1,31 @@
 
 var debts = [
 	{
-		"name"				: 'Great Lakes',
-		"bal" 				: 271565,
-		"payment"			: 2987,
-		"totalInterestPaid"	: 0,
-		"totalPaid"			: 0,
-		"months"			: 0,
-		"intRate"			: 6
-	},
-	{
 		"name"				: 'Chase',
-		"bal" 				: 9187,
-		"payment"			: 163.69,
+		"bal" 				: 100,
+		"payment"			: 10,
 		"totalInterestPaid"	: 0,
 		"totalPaid"			: 0,
 		"months"			: 0,
-		"intRate"			: 12.15
+		"intRate"			: 1
 	},
 	{
-		"name"				: 'AES',
-		"bal" 				: 11094,
-		"payment"			: 167.82,
+		"name"				: 'Capital 1',
+		"bal" 				: 2000,
+		"payment"			: 25,
 		"totalInterestPaid"	: 0,
 		"totalPaid"			: 0,
 		"months"			: 0,
-		"intRate"			: 4.82
+		"intRate"			: 2
 	},
 	{
-		"name"				: 'Sallie Mae',
-		"bal" 				: 101514,
-		"payment"			: 1600,
+		"name"				: 'Toyota',
+		"bal" 				: 300,
+		"payment"			: 33,
 		"totalInterestPaid"	: 0,
 		"totalPaid"			: 0,
 		"months"			: 0,
-		"intRate"			: 8	
+		"intRate"			: 3
 	},
 ];
 
@@ -173,9 +164,13 @@ a1 = JSON.parse( JSON.stringify( debts ) );
 a2 = JSON.parse( JSON.stringify( debts ) );
 a3 = JSON.parse( JSON.stringify( debts ) );
 
-var run1 = runSimulation(a1,'interest', 500, false);
-var run2 = runSimulation(a2,'balance', 500, false);
+var run1 = runSimulation(a1,'interest', 0, false);
+var run2 = runSimulation(a2,'balance', 0, false);
 var run3 = runSimulation(a3,'', 0, true);
+
+console.log(run1);
+console.log(run2);
+console.log(run3);
 
 function ConvertFormToJSON(form){
     var array = jQuery(form).serializeArray();
@@ -194,7 +189,7 @@ function ConvertFormToJSON(form){
 }
 jQuery.fn.formToJson = function (fieldsPerItem){
 	var userInput = this.serializeArray();
-	console.log("user input", userInput)
+	// console.log("user input", userInput)
 	var array = [];
 	var json = {};
 	var key, val;
@@ -214,13 +209,17 @@ jQuery.fn.formToJson = function (fieldsPerItem){
 function mySubmit (item) {
 	var debtList, extraMoney;
 
-    debtList = $("#loanEntryForm").formToJson(4);
+    debtList = $("#loanEntryForm").formToJson(6);
+    // console.log('debtList', debtList);
     extraMoney = $('#extraMoney').val() || 0;
+    extraMoney = parseInt(extraMoney);
       
-    console.log(extraMoney);
+    console.log('extramoney', extraMoney);
 	var interestFirst = runSimulation(debtList,'interest', extraMoney, false);
 	var balanceFirst = runSimulation(debtList,'balance', extraMoney, false);
 	var minimum = runSimulation(debtList,'', 0, true);
+
+	console.log('extramoney', extraMoney);
 
 	displayResults('interest-first', interestFirst);
 	displayResults('balance-first', balanceFirst);
@@ -228,7 +227,8 @@ function mySubmit (item) {
 
 	console.log("int first", interestFirst);
 	console.log("bal first", balanceFirst);
-	console.log("minimum", runSimulation);
+	console.log("min", minimum);
+//	console.log("minimum", runSimulation);
 }
 
 function displayResults(method, list){
