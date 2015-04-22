@@ -26,22 +26,41 @@
 	#main-container {
 		max-width: 800px;
 	}
+	.method {
+		font-weight: bold;
+		margin-right: 10px;
+	}
+	.total-paid, .total-months {
+		margin: 0 10px;
+	}
+	.title{
+		margin: 0 10px;
+	}
+	#results-container section{
+		line-height: 25px;
+	}
+	#results-container {
+		display: none;
+	}
 	</style>
 </head>
 <body>
 	<div id="main-container">
 		<div id="results-container">
 			<section id="interest-first">
-				<span> Total Paid <span class="total-paid"></span></span>
-				<span> Months till payoff <span class="total-months"></span></span>
+				<span class="method">Highest Interest First (Avalance)</span>
+				<span class="title"> Total Paid <span class="total-paid"></span></span>
+				<span class="title"> Months till payoff <span class="total-months"></span></span>
 			</section>
 			<section id="balance-first">
-				<span> Total Paid <span class="total-paid"></span></span>
-				<span> Months till payoff <span class="total-months"></span></span>
+				<span class="method">Lowest Balance First (Snowball)</span>
+				<span class="title"> Total Paid <span class="total-paid"></span></span>
+				<span class="titile"> Months till payoff <span class="total-months"></span></span>
 			</section>
 			<section id="minimum">
-				<span> Total Paid <span class="total-paid"></span></span>
-				<span> Months till payoff <span class="total-months"></span></span>
+				<span class="method">Minimum payment</span>
+				<span class="title"> Total Paid <span class="total-paid"></span></span>
+				<span class="title"> Months till payoff <span class="total-months"></span></span>
 			</section>
 		</div>
 		<div id="entry-container">
