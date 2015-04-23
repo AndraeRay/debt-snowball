@@ -101,7 +101,7 @@ function addMonthlyInterest(list, debt){
 	monthlyInterest = calculateMonthlyInterest(debt);
 	debt.bal += monthlyInterest;
 	list.totalBal += monthlyInterest;
-	debt.totalInterestPaid += monthlyInterest; 
+	debt.totalInterestPaid += monthlyInterest;
 }
 
 
@@ -199,7 +199,7 @@ jQuery.fn.formToJson = function (fieldsPerItem){
 		}
 	});
 	return(array);
-}
+};
 
 function mySubmit (item) {
 	var debtList, extraMoney;
