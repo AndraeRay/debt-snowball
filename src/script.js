@@ -230,7 +230,7 @@ function displayResults(method, list){
 	units = AR.unitsToPieces('months', 'years', list.months)
 	$('#results-container').show();
 	$container = $('#' + method);
-	$container.find('.total-paid').html(list.totalPaid);
+	$container.find('.total-paid').html(moneyRound(list.totalPaid));
 	$container.find('.total-months').html(units.years + 'year(s) and '+ units.months + 'month(s)');
 }
 
