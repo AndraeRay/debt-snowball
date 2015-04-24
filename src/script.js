@@ -231,7 +231,7 @@ function displayResults(method, list){
 	$('#results-container').show();
 	$container = $('#' + method);
 	$container.find('.total-paid').html(moneyRound(list.totalPaid));
-	$container.find('.total-months').html(units.years + 'year(s) and '+ units.months + 'month(s)');
+	$container.find('.total-months').html(units.years + ' year(s) and '+ units.months + ' month(s)');
 }
 
 
