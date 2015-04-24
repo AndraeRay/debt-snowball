@@ -1,3 +1,4 @@
+"use strict";
 
 var debts = [
 	{
@@ -30,7 +31,7 @@ var debts = [
 ];
 
 function gettotalBal(list){
-	for (i = 0; i < list.length; i++) {
+	for (var i = 0; i < list.length; i++) {
 		list.totalBal += list[i].bal;
 	}
 	list.originalAmountOwed = list.totalBal;
@@ -48,8 +49,8 @@ function allocateExtraMoney(list, extraMoney){
 		// console.log('no reallocate!');
 		return;
 	}
-	for (i = 0; i < list.length; i++) {
-		debt = list[i];
+	for (var i = 0; i < list.length; i++) {
+		var debt = list[i];
 		if (debt.bal > 0){
 			debt.payment += extraMoney;
 			break;
@@ -108,8 +109,8 @@ function addMonthlyInterest(list, debt){
 function makeMonthlyPayments(list){
 	var payment, monthlyInterest, isFinalPayment;
 	while(list.totalBal - 0.5 > 0){
-		for (i = 0; i < list.length; i ++){
-			debt = list[i];
+		for (var i = 0; i < list.length; i ++){
+			var debt = list[i];
 			if (debt.bal > 0){
 				addMonthlyInterest(list, debt);
 				payment = debt.payment;
@@ -159,9 +160,9 @@ function runSimulation(list, method, extraMoney, payMinimum){
 }
 
 
-a1 = JSON.parse( JSON.stringify( debts ) );
-a2 = JSON.parse( JSON.stringify( debts ) );
-a3 = JSON.parse( JSON.stringify( debts ) );
+var a1 = JSON.parse( JSON.stringify( debts ) );
+var a2 = JSON.parse( JSON.stringify( debts ) );
+var a3 = JSON.parse( JSON.stringify( debts ) );
 
 var run1 = runSimulation(a1,'interest', 0, false);
 var run2 = runSimulation(a2,'balance', 0, false);
@@ -256,3 +257,25 @@ var single = [
 ];
 
 var runSingle = runSimulation(single,'balance', 0, false);
+
+var AR = (function() {
+
+	function unitsToPieces (smallUnit, bigUnit, amount, divisor){
+		var units = {};
+		if (bigUnit === 'years') {
+			divisor = 12;
+		}
+		if (bigUnit === 'hours') {
+			divisor = 60;
+		}
+		units[bigUnit] = parseInt(amount / divisor);
+		units[smallUnit] = amount % divisor;
+
+		return units;
+	}
+
+	return {
+		unitsToPieces : unitsToPieces
+	}
+
+}())

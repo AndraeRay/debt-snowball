@@ -1,6 +1,6 @@
 describe("Debt calculator", function() {
 
-  var debts;
+  var debts, AR;
 
 
   beforeEach(function() {
@@ -66,7 +66,42 @@ describe("Debt calculator", function() {
     expect(debts[2].name).toBe('Toyota');
   });
 
-  it('can calculate the monthly interest due', function(){
+  it('can convert months into years and months', function(){
+    var units, AR;
 
+    AR = (function() {
+
+      function unitsToPieces (smallUnit, bigUnit, amount, divisor){
+        var units = {};
+        if (bigUnit === 'years') {
+          divisor = 12;
+        }
+        if (bigUnit === 'hours') {
+          divisor = 60;
+        }
+        units[bigUnit] = parseInt(amount / divisor);
+        units[smallUnit] = amount % divisor;
+
+        return units;
+      }
+
+      return {
+        unitsToPieces : unitsToPieces
+      }
+
+    }())
+    
+    expect(AR).toBeDefined();
+    units = AR.unitsToPieces('months', 'years', 13);
+    expect(units.years).toBe(1);
+    expect(units.months).toBe(1);
+
+    units = AR.unitsToPieces('months', 'years', 27);
+    expect(units.years).toBe(2);
+    expect(units.months).toBe(3);
+
+    units = AR.unitsToPieces('months', 'years', 60);
+    expect(units.years).toBe(5);
+    expect(units.months).toBe(0);
   });
 });
