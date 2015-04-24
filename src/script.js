@@ -226,11 +226,12 @@ function mySubmit (item) {
 
 function displayResults(method, list){
 	//minimum, //interest //balance
-	var $container;
+	var $container, units;
+	units = AR.unitsToPieces('months', 'years', list.months)
 	$('#results-container').show();
 	$container = $('#' + method);
 	$container.find('.total-paid').html(list.totalPaid);
-	$container.find('.total-months').html(list.months);
+	$container.find('.total-months').html(units.years + 'year(s) and '+ units.months + 'month(s)');
 }
 
 
