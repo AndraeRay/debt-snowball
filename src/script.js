@@ -1,35 +1,5 @@
 "use strict";
 
-var debts = [
-	{
-		"name"				: 'Chase',
-		"bal" 				: 100,
-		"payment"			: 10,
-		"totalInterestPaid"	: 0,
-		"totalPaid"			: 0,
-		"months"			: 0,
-		"intRate"			: 1
-	},
-	{
-		"name"				: 'Capital 1',
-		"bal" 				: 2000,
-		"payment"			: 25,
-		"totalInterestPaid"	: 0,
-		"totalPaid"			: 0,
-		"months"			: 0,
-		"intRate"			: 2
-	},
-	{
-		"name"				: 'Toyota',
-		"bal" 				: 300,
-		"payment"			: 33,
-		"totalInterestPaid"	: 0,
-		"totalPaid"			: 0,
-		"months"			: 0,
-		"intRate"			: 3
-	},
-];
-
 function gettotalBal(list){
 	for (var i = 0; i < list.length; i++) {
 		list.totalBal += list[i].bal;
@@ -160,20 +130,9 @@ function runSimulation(list, method, extraMoney, payMinimum){
 }
 
 
-var a1 = JSON.parse( JSON.stringify( debts ) );
-var a2 = JSON.parse( JSON.stringify( debts ) );
-var a3 = JSON.parse( JSON.stringify( debts ) );
-
-var run1 = runSimulation(a1,'interest', 0, false);
-var run2 = runSimulation(a2,'balance', 0, false);
-var run3 = runSimulation(a3,'', 0, true);
-
-
 function ConvertFormToJSON(form){
     var array = jQuery(form).serializeArray();
     var json = {};
-
-    console.log(array);
     
     jQuery.each(array, function() {
         json[this.name] = parseInt(this.value) || '';
@@ -217,11 +176,6 @@ function mySubmit (item) {
 	displayResults('interest-first', interestFirst);
 	displayResults('balance-first', balanceFirst);
 	displayResults('minimum', minimum);
-
-	console.log("int first", interestFirst);
-	console.log("bal first", balanceFirst);
-	console.log("min", minimum);
-//	console.log("minimum", runSimulation);
 }
 
 function displayResults(method, list){
@@ -233,31 +187,6 @@ function displayResults(method, list){
 	$container.find('.total-paid').html(moneyRound(list.totalPaid));
 	$container.find('.total-months').html(units.years + ' year(s) and '+ units.months + ' month(s)');
 }
-
-
-
-var single = [
-	{
-		"name"				: 'cc 1',
-		"bal" 				: 2466.36,
-		"payment"			: 87,
-		"totalInterestPaid"	: 0,
-		"totalPaid"			: 0,
-		"months"			: 0,
-		"intRate"			: 15.99
-	},
-		{
-		"name"				: 'cc 1',
-		"bal" 				: 2466.36,
-		"payment"			: 87,
-		"totalInterestPaid"	: 0,
-		"totalPaid"			: 0,
-		"months"			: 0,
-		"intRate"			: 15.99
-	}
-];
-
-var runSingle = runSimulation(single,'balance', 0, false);
 
 var AR = (function() {
 
