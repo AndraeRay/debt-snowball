@@ -28,6 +28,13 @@ function allocateExtraMoney(list, extraMoney){
 	}
 }
 
+/**
+* Comparator to sort by balance
+* @param {object} a - the first debt object
+* @param {number} a.bal - Balance of the first debt
+* @param {object} b - the second debt object
+* @param {number} b.bal - Balance of the second debt
+*/
 function compareBal(a,b) {
   if (a.bal > b.bal) {
     return 1;
@@ -39,6 +46,13 @@ function compareBal(a,b) {
   return 0;
 }
 
+/**
+* Comparator to sort by interest rates
+* @param {object} a - the first debt object
+* @param {number} a.intRate - Interest rate of the first debt
+* @param {object} b - the second debt object
+* @param {number} b.intRate - Interest rate of the second debt
+*/
 function compareInterest(a,b){
 	
 	if (a.intRate > b.intRate){
