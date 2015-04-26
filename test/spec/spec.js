@@ -53,14 +53,14 @@ describe("Debt calculator", function() {
   });
 
   it('is able to sort by highest Interest', function(){
-    debts.sort(highestInterest);
+    debts.sort(compareInterest);
     expect(debts[0].name).toBe('AMEX');
     expect(debts[1].name).toBe('Toyota');
     expect(debts[2].name).toBe('Chase');
   });
 
   it('is able to sort by lowest amount', function(){
-    debts.sort(lowestBal);
+    debts.sort(compareBal);
     expect(debts[0].name).toBe('AMEX');
     expect(debts[1].name).toBe('Chase');
     expect(debts[2].name).toBe('Toyota');

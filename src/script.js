@@ -1,6 +1,6 @@
 "use strict";
 
-function gettotalBal(list){
+function getTotalBal(list){
 	for (var i = 0; i < list.length; i++) {
 		list.totalBal += list[i].bal;
 	}
@@ -28,7 +28,7 @@ function allocateExtraMoney(list, extraMoney){
 	}
 }
 
-function lowestBal(a,b) {
+function compareBal(a,b) {
   if (a.bal > b.bal) {
     return 1;
   }
@@ -39,7 +39,7 @@ function lowestBal(a,b) {
   return 0;
 }
 
-function highestInterest(a,b){
+function compareInterest(a,b){
 	
 	if (a.intRate > b.intRate){
 		return -1;
@@ -112,13 +112,13 @@ function runSimulation(list, method, extraMoney, payMinimum){
 	summaryList.payMinimum = payMinimum;
 
 	addProperties(summaryList);
-	gettotalBal(summaryList);
+	getTotalBal(summaryList);
 	switch(method){
 		case 'interest':
-			summaryList.sort(highestInterest);
+			summaryList.sort(compareInterest);
 			break;
 		case 'balance':
-			summaryList.sort(lowestBal);
+			summaryList.sort(compareBal);
 			break;
 		default :
 			extraMoney = 0;
