@@ -1,5 +1,10 @@
 "use strict";
 
+/**
+* Calculates total total balance, and stores it in the object 
+* @param {object} debtList - List of all the debts
+* @param {number} debtList.bal - The Balance of each debt in the list
+*/
 function getTotalBal(list){
 	for (var i = 0; i < list.length; i++) {
 		list.totalBal += list[i].bal;
@@ -127,7 +132,7 @@ function makeMonthlyPayments(list){
 
 }
 
-function addProperties(list){
+function addSummaryProperties(list){
 	list.totalPaid = 0;
 	list.totalBal = 0;
 	list.months = 0;
@@ -136,8 +141,8 @@ function addProperties(list){
 function runSimulation(list, method, extraMoney, payMinimum){
 	var summaryList = JSON.parse( JSON.stringify( list ) );
 	summaryList.payMinimum = payMinimum;
+	addSummaryProperties(summaryList);
 
-	addProperties(summaryList);
 	getTotalBal(summaryList);
 	switch(method){
 		case 'interest':

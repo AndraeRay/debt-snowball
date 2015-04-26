@@ -77,6 +77,17 @@ describe("Debt calculator", function() {
 
   });
 
+  it('should get the total balance owed for all debts in object', function(){
+    addSummaryProperties(debts);
+    getTotalBal(debts);
+    expect(debts.totalBal).toBe(17538.72);
+
+    addSummaryProperties(debts);
+    debts[1].bal = 20000
+    getTotalBal(debts);
+    expect(debts.totalBal).toBe(22538.72);
+  });
+
   describe("Display features", function(){
     it('can convert months into years and months', function(){
       var units, AR;
