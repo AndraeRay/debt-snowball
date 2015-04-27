@@ -71,19 +71,21 @@ function compareInterest(a,b){
 
 /**
 * Returns the number rounded up to the nearest tenth
-*@param {number} amount
+* @param {number} amount
+* @returns {number} - the number rounded up to the nearest tenth 
 */
 function moneyRound(amount){
 	return Math.ceil(amount * 100) / 100;
 }
 
 /**
-* Returns the monthly interest of an account
+* Returns the monthly interest of an debt
 * @param {object} debt - the debt record
 * @param {number} debt.intRate - The interest rate of the debt
 * @param {number} debt.bal - The Balance of the debt
 * @description Compounds interest daily and uses the compound Interst formula.
 * A = P (1 + r/n)^(nt)
+* @returns {number} monthly interst of a debt
 */
 function calculateMonthlyInterest(debt) {
 	var r, t, n, principal, newAmount, interestForMonth;
