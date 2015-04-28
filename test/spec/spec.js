@@ -38,15 +38,15 @@ describe("Debt calculator", function() {
 
   it("should round hundreth place up to the nearest tenth", function() {
     var amount, roundedAmount;
-    amount = 1.456
+    amount = 1.456;
     roundedAmount = moneyRound(amount);
     expect(roundedAmount).toBe(1.46);
 
-    amount = 1.9226
+    amount = 1.9226;
     roundedAmount = moneyRound(amount);
     expect(roundedAmount).toBe(1.93);
 
-    amount = 1.999
+    amount = 1.999;
     roundedAmount = moneyRound(amount);
     expect(roundedAmount).toBe(2.0);
 
@@ -83,7 +83,7 @@ describe("Debt calculator", function() {
     expect(debts.totalBal).toBe(17538.72);
 
     addSummaryProperties(debts);
-    debts[1].bal = 20000
+    debts[1].bal = 20000;
     getTotalBal(debts);
     expect(debts.totalBal).toBe(22538.72);
   });
@@ -131,9 +131,9 @@ describe("Debt calculator", function() {
 
         return {
           unitsToPieces : unitsToPieces
-        }
+        };
 
-      }())
+      }());
 
       expect(AR).toBeDefined();
       units = AR.unitsToPieces('months', 'years', 13);
@@ -148,7 +148,7 @@ describe("Debt calculator", function() {
       expect(units.years).toBe(5);
       expect(units.months).toBe(0);
     });
-  })
+  });
 
   
 });

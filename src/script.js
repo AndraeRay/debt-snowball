@@ -1,5 +1,7 @@
 "use strict";
 
+var jQuery, $;
+
 /**
 * Calculates total total balance, and stores it in the object 
 * @param {object} debtList - List of all the debts
@@ -220,7 +222,7 @@ function mySubmit (item) {
 function displayResults(method, list){
 	//minimum, //interest //balance
 	var $container, units;
-	units = AR.unitsToPieces('months', 'years', list.months)
+	units = AR.unitsToPieces('months', 'years', list.months);
 	$('#results-container').show();
 	$container = $('#' + method);
 	$container.find('.total-paid').html(moneyRound(list.totalPaid));
@@ -245,6 +247,6 @@ var AR = (function() {
 
 	return {
 		unitsToPieces : unitsToPieces
-	}
+	};
 
-}())
+}());
