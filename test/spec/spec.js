@@ -88,6 +88,27 @@ describe("Debt calculator", function() {
     expect(debts.totalBal).toBe(22538.72);
   });
 
+  it('should allocate money to the first debt with a balance greater than zero', function(){
+    expect(debts[0].payment).toBe(25);
+    allocateExtraMoney(debts, 50);
+    expect(debts[0].payment).toBe(75);
+
+    //remaining should be unchanged
+    expect(debts[1].payment).toBe(425.10);
+    expect(debts[2].payment).toBe(35);
+  });
+
+  it('should allocate money if debt list is set up to pay minimum', function(){
+    debts.payMinimum = true;
+    expect(debts[0].payment).toBe(25);
+    allocateExtraMoney(debts, 50);
+    expect(debts[0].payment).toBe(25);
+
+    //remaining should be unchanged
+    expect(debts[1].payment).toBe(425.10);
+    expect(debts[2].payment).toBe(35);
+  });
+
   describe("Display features", function(){
     it('can convert months into years and months', function(){
       var units, AR;

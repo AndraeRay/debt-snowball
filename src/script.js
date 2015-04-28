@@ -19,9 +19,15 @@ function sumTotals(list, idx, payment){
 	list.totalPaid += payment;
 }
 
+/**
+* Adds additional money to the first loan with balance greater than zero
+* @param {object} debtList - list of all debts
+* @param {number} extraMoney - amount of money that should be added
+* @param {boolean} debtList.payMinimum - boolean to see if extra money should be reallocated
+* @param {number} debtList.[].bal - the balance of a specific debt in list
+*/
 function allocateExtraMoney(list, extraMoney){
 	if (list.payMinimum){
-		// console.log('no reallocate!');
 		return;
 	}
 	for (var i = 0; i < list.length; i++) {
