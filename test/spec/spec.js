@@ -118,10 +118,58 @@ describe("Debt calculator", function() {
     addMonthlyInterest(debts, debts[0]);
 
     //interest payment is 33.08 see preivous test
-    
+
     expect(debts[0].totalInterestPaid).toBe(33.08);
     expect(moneyRound(debts.totalBal)).toBe(17571.81);
     expect(debts[0].bal).toBe(2499.44);
+  });
+
+  it('should make monthly payments', function(){
+    var netPayment, debtBal, totalBal;
+
+    addSummaryProperties(debts);
+    getTotalBal(debts);
+
+    totalBal = debts.totalBal;
+    debtBal = debts[0].bal;
+    
+
+    netPayment = debts[0].payment - calculateMonthlyInterest(debts[0]);
+    
+    makeMonthyPayments(debts, debt);
+
+    expect(debts.totalBal).toBe(totalBal - netPayment);
+    expect(debts[0].bal).toBe(debtBal - netPayment);
+
+  });
+
+  it('should pay exact amount of last payment,', function(){
+
+    var monthlyInterest, finalPayment;
+
+    addSummaryProperties(debts);
+    getTotalBal(debts);
+
+    totalBal = debts.totalBal;
+
+    netPayment = debts[0].payment - calculateMonthlyInterest(debts[0]);
+    expect(netPayment).toBeGreaterThan(debts[0].bal);
+
+    finalPayment = debts[0].bal + calculateMonthlyInterest(debts[0]);
+    
+    makeMonthyPayments(debts, debt);
+
+    expect(debts.totalBal).toBe(totalBal - finalPayment);
+    expect(debts[0].bal).toBe(0);
+
+  });
+
+  it('should take remaining funds of last payment, and apply to next non zero debt', function(){
+
+  });
+
+  it('should not not pay remaining funds of last payment if the debt list has been completely paid off', function(){
+
   });
 
   describe("Display features", function(){

@@ -137,7 +137,7 @@ function addMonthlyInterest(list, debt){
 }
 
 
-function makeMonthlyPayments(list){
+function iterateMonths(list){
 	var payment, monthlyInterest, isFinalPayment;
 	while(list.totalBal - 0.5 > 0){
 		for (var i = 0; i < list.length; i ++){
@@ -191,7 +191,7 @@ function runSimulation(list, method, extraMoney, payMinimum){
 	}
 
 	allocateExtraMoney(summaryList, extraMoney);
-	makeMonthlyPayments(summaryList);
+	iterateMonths(summaryList);
 	return(summaryList);
 }
 
