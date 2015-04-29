@@ -108,6 +108,15 @@ function calculateMonthlyInterest(debt) {
 	return interestForMonth;
 }
 
+/**
+* Adds monthly interest to debt's balance, list's overall balance, and overall interest paid
+* @param {object} list - The list of debts
+* @param {object} debt - the individual debt
+* @param {number} list.totalBal - The total Balance owed
+* @param {number} debt.bal - The current balance on the individual debt
+* @param {number} debt.totalInterestPaid - The total interest paid thus far for the individual debt
+*
+*/
 function addMonthlyInterest(list, debt){
 	var monthlyInterest;
 	monthlyInterest = calculateMonthlyInterest(debt);
@@ -142,6 +151,11 @@ function makeMonthlyPayments(list){
 
 }
 
+/**
+* Adds properties to overall debt list to keep track of overall change
+* @params {object} list - the list of debts
+*
+*/
 function addSummaryProperties(list){
 	list.totalPaid = 0;
 	list.totalBal = 0;
@@ -170,20 +184,6 @@ function runSimulation(list, method, extraMoney, payMinimum){
 	return(summaryList);
 }
 
-
-function ConvertFormToJSON(form){
-    var array = jQuery(form).serializeArray();
-    var json = {};
-    
-    jQuery.each(array, function() {
-        json[this.name] = parseInt(this.value) || '';
-    });
-    json.totalInterestPaid = 0;
-    json.totalPaid = 0;
-    json.months = 0;
-    
-    return json;
-}
 jQuery.fn.formToJson = function (fieldsPerItem){
 	var userInput = this.serializeArray();
 	var array = [];

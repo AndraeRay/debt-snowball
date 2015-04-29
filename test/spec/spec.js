@@ -109,6 +109,20 @@ describe("Debt calculator", function() {
     expect(debts[2].payment).toBe(35);
   });
 
+  it('should add monthly interest to individual debt, and overall debt list', function(){
+    addSummaryProperties(debts);
+    getTotalBal(debts);
+    expect(debts.totalBal).toBe(17538.72);
+    expect(debts[0].bal).toBe(2466.36);
+
+    addMonthlyInterest(debts, debts[0]);
+
+    //interest payment is 33.08 see preivous test
+
+    expect(moneyRound(debts.totalBal)).toBe(17571.81);
+    expect(debts[0].bal).toBe(2499.44);
+  });
+
   describe("Display features", function(){
     it('can convert months into years and months', function(){
       var units, AR;
