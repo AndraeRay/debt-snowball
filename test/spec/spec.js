@@ -118,7 +118,8 @@ describe("Debt calculator", function() {
     addMonthlyInterest(debts, debts[0]);
 
     //interest payment is 33.08 see preivous test
-
+    
+    expect(debts[0].totalInterestPaid).toBe(33.08);
     expect(moneyRound(debts.totalBal)).toBe(17571.81);
     expect(debts[0].bal).toBe(2499.44);
   });

@@ -14,7 +14,18 @@ function getTotalBal(list){
 	list.originalAmountOwed = list.totalBal;
 }
 
-function sumTotals(list, idx, payment){
+/**
+* Records payment in individual debt, and debt list. Increments months of payment for individual debt and debt list
+* @param {object} list - list of all the debts
+* @param {number} list.totalPaid - the total paid for entire debt list
+* @param {number} list.months - the total amount of months for which payments have been made for entire list
+* @param {number} list[].months - the amount of monthly payments that have been made on debt
+* @param {number} list[].totalPaid - the total payments made toward this debt
+* @param {number} idx - the index of the debt where a payment was made
+* @param {number} payment - the payment amount
+*
+*/
+function recordPayment(list, idx, payment){
 	list[idx].totalPaid += payment;
 	list[idx].months += 1;
 	list.months = list[idx].months > list.months ? list[idx].months : list.months;
@@ -24,9 +35,9 @@ function sumTotals(list, idx, payment){
 /**
 * Adds additional money to the first loan with balance greater than zero
 * @param {object} debtList - list of all debts
-* @param {number} extraMoney - amount of money that should be added
 * @param {boolean} debtList.payMinimum - boolean to see if extra money should be reallocated
 * @param {number} debtList.[].bal - the balance of a specific debt in list
+* @param {number} extraMoney - amount of money that should be added
 */
 function allocateExtraMoney(list, extraMoney){
 	if (list.payMinimum){
@@ -111,8 +122,8 @@ function calculateMonthlyInterest(debt) {
 /**
 * Adds monthly interest to debt's balance, list's overall balance, and overall interest paid
 * @param {object} list - The list of debts
-* @param {object} debt - the individual debt
 * @param {number} list.totalBal - The total Balance owed
+* @param {object} debt - the individual debt
 * @param {number} debt.bal - The current balance on the individual debt
 * @param {number} debt.totalInterestPaid - The total interest paid thus far for the individual debt
 *
@@ -140,7 +151,7 @@ function makeMonthlyPayments(list){
 				}
 				debt.bal -= payment;
 				list.totalBal -= payment;
-				sumTotals(list, i, payment);
+				recordPayment(list, i, payment);
 				if(isFinalPayment) {
 					allocateExtraMoney(list, debt.payment);
 					isFinalPayment = false;
