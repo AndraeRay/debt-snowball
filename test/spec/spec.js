@@ -165,10 +165,42 @@ describe("Debt calculator", function() {
   });
 
   it('should take remaining funds of last payment, and apply to next non zero debt', function(){
+    var totalBal, debtbal1;
+    addSummaryProperties(debts);
+    getTotalBal(debts);
+
+    debts[0].bal = 1;
+    debtbal1.bal = debts[1].bal;
+    totalBal = debts.totalBal;
+
+    extraPayment =  calculateMonthlyInterest(debts[0]) - debts[0].payment;
+
+    makeMonthyPayments(debts, debt);
+    expect(debts[0].bal).toBe(0);
+    expect(debts[1].bal).toBe(debtbal1 - extraPayment);
+
+    expect(debts.totalBal).toBe(totalBal - debts[0].payment);
 
   });
 
-  it('should not not pay remaining funds of last payment if the debt list has been completely paid off', function(){
+  it('should only pay remaning bal and nothing else if debt list has been completely paid off', function(){
+    var totalBal, debtbal1;
+    addSummaryProperties(debts);
+    getTotalBal(debts);
+
+    debts[0].bal = 1;
+    debts[1].bal = 0;
+    debts[2].bal = 0;
+
+    extraPayment =  calculateMonthlyInterest(debts[0]) - debts[0].payment;
+
+    makeMonthyPayments(debts, debt);
+    expect(debts[0].bal).toBe(1);
+    expect(debts[1].bal).toBe(0);
+    expect(debts[2].bal).toBe(0);
+
+    expect(debts.totalBal).toBe(0).payment);
+    expect(debts.totalPaid).toBe(1);
 
   });
 
