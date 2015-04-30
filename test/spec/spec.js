@@ -223,7 +223,7 @@ describe("Debt calculator", function() {
     addSummaryProperties(debts);
 
     debts[0].bal = 1;
-    debts[1].bal = 0;
+    debts[1].bal = 1;
     debts[2].bal = 0;
 
     getTotalBal(debts);

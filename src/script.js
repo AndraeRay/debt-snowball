@@ -186,9 +186,9 @@ function allocateSurplusPayment(list, surplus){
 					list.totalBal -= surplus;
 					break;
 				} else {
-					secondSurplus = abs(debt.bal - surplus);
+					secondSurplus = Math.abs(debt.bal - surplus);
 					debt.bal -= (surplus - secondSurplus);
-					list.totalBal -= surplus;
+					list.totalBal -= (surplus - secondSurplus);
 					allocateSurplusPayment(list, secondSurplus)
 				}
 			}
