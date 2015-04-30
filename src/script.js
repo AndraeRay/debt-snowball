@@ -267,12 +267,15 @@ function mySubmit (item) {
 
 function displayResults(method, list){
 	//minimum, //interest //balance
-	var $container, units;
+	var $container, units, now;
+	now = new Date();
 	units = AR.unitsToPieces('months', 'years', list.months);
+	now.setFullYear(now.getFullYear() + units.years);
+	now.setMonth(now.getMonth() + units.months - 1);
 	$('#results-container').show();
 	$container = $('#' + method);
 	$container.find('.total-paid').html(moneyRound(list.totalPaid));
-	$container.find('.total-months').html(units.years + ' year(s) and '+ units.months + ' month(s)');
+	$container.find('.total-months').html(units.years + ' year(s) and '+ units.months + ' month(s)' + ' -- ' + now.toDateString());
 }
 
 var AR = (function() {
