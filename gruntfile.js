@@ -33,11 +33,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-karma');
 
+
   // Default task(s).
   grunt.registerTask('default', ['uglify']);
 
   grunt.registerTask('docs', ['jsdoc']);
-  grunt.registerTask('test', ['karma']);
+  grunt.registerTask('test', [
+    'karma'
+  ]);
 
 
 };

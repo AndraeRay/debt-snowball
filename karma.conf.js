@@ -10,8 +10,17 @@ module.exports = function(config) {
     ],
     exclude: [
     ],
-    preprocessors: {},
-    reporters: ['dots'],
+
+    // coverage reporter generates the coverage
+    reporters: ['progress', 'coverage', 'dots'],
+
+    preprocessors: {
+      // source files, that you wanna generate coverage for
+      // do not include tests or libraries
+      // (these files will be instrumented by Istanbul)
+      'src/**/*.js': ['coverage']
+    },
+
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
