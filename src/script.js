@@ -161,8 +161,8 @@ function makeMonthlyPayment(list, debt) {
 		payment = debt.bal;
 		surplus = debt.payment - payment
 	}
-	debt.bal = (debt.bal - payment).toFixed(2);
-	list.totalBal = (list.totalBal - payment).toFixed(2);
+	debt.bal = moneyRound(debt.bal - payment);
+	list.totalBal = moneyRound(list.totalBal - payment);
 	recordPayment(list, debt, payment);
 	if(isFinalPayment) {
 		allocateExtraMoney(list, debt.payment);
@@ -174,6 +174,9 @@ function makeMonthlyPayment(list, debt) {
 
 function allocateSurplusPayment(list, surplus){
 	var secondSurplus, debt;
+	if (list.payMinimum){
+		return;
+	}
 	if (list.totalBal > 0) {
 		for(var i=0; i<list.length; i++){
 			debt = list[i];

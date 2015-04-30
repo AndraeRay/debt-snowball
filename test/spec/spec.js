@@ -138,8 +138,8 @@ describe("Debt calculator", function() {
     
     makeMonthlyPayment(debts, debts[0]);
 
-    expect(debts.totalBal).toBe( (totalBal - netPayment).toFixed(2) );
-    expect(debts[0].bal).toBe( (debtBal - netPayment).toFixed(2) );
+    expect(debts.totalBal).toBe( moneyRound(totalBal - netPayment) );
+    expect(debts[0].bal).toBe( moneyRound(debtBal - netPayment) ) ;
 
   });
 
@@ -167,7 +167,7 @@ describe("Debt calculator", function() {
     
     makeMonthlyPayment(debts, debts[0]);
 
-    expect(debts[0].bal).toBe('0.00');
+    expect(debts[0].bal).toBe(0);
 
   });
 
