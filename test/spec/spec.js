@@ -8,7 +8,7 @@ describe("Debt calculator", function() {
       {
         "name"        : 'Chase',
         "bal"         : 2466.36,
-        "payment"     : 25,
+        "payment"     : 39,
         "totalInterestPaid" : 0,
         "totalPaid"     : 0,
         "months"      : 0,
@@ -89,9 +89,9 @@ describe("Debt calculator", function() {
   });
 
   it('should allocate money to the first debt with a balance greater than zero', function(){
-    expect(debts[0].payment).toBe(25);
+    expect(debts[0].payment).toBe(39);
     allocateExtraMoney(debts, 50);
-    expect(debts[0].payment).toBe(75);
+    expect(debts[0].payment).toBe(89);
 
     //remaining should be unchanged
     expect(debts[1].payment).toBe(425.10);
@@ -100,9 +100,9 @@ describe("Debt calculator", function() {
 
   it('should allocate money if debt list is set up to pay minimum', function(){
     debts.payMinimum = true;
-    expect(debts[0].payment).toBe(25);
+    expect(debts[0].payment).toBe(39);
     allocateExtraMoney(debts, 50);
-    expect(debts[0].payment).toBe(25);
+    expect(debts[0].payment).toBe(39);
 
     //remaining should be unchanged
     expect(debts[1].payment).toBe(425.10);
@@ -133,13 +133,13 @@ describe("Debt calculator", function() {
     totalBal = debts.totalBal;
     debtBal = debts[0].bal;
     
-
-    netPayment = debts[0].payment - calculateMonthlyInterest(debts[0]);
+    netPayment = (debts[0].payment - calculateMonthlyInterest(debts[0])).toFixed(2);
+    addMonthlyInterest(debts, debts[0]);
     
-    makeMonthyPayments(debts, debt);
+    makeMonthlyPayment(debts, debts[0]);
 
-    expect(debts.totalBal).toBe(totalBal - netPayment);
-    expect(debts[0].bal).toBe(debtBal - netPayment);
+    expect(debts.totalBal).toBe( (totalBal - netPayment).toFixed(2) );
+    expect(debts[0].bal).toBe( (debtBal - netPayment).toFixed(2) );
 
   });
 
@@ -147,59 +147,93 @@ describe("Debt calculator", function() {
 
     var monthlyInterest, finalPayment;
 
+    debts[0].bal = 1;
+
     addSummaryProperties(debts);
     getTotalBal(debts);
 
     totalBal = debts.totalBal;
 
-    netPayment = debts[0].payment - calculateMonthlyInterest(debts[0]);
+    monthlyInterest = calculateMonthlyInterest(debts[0]);;
+
+    totalBal += monthlyInterest;
+
+    netPayment = debts[0].payment - monthlyInterest;
     expect(netPayment).toBeGreaterThan(debts[0].bal);
 
-    finalPayment = debts[0].bal + calculateMonthlyInterest(debts[0]);
-    
-    makeMonthyPayments(debts, debt);
+    addMonthlyInterest(debts, debts[0]);
 
-    expect(debts.totalBal).toBe(totalBal - finalPayment);
-    expect(debts[0].bal).toBe(0);
+    finalPayment = debts[0].bal;
+    
+    makeMonthlyPayment(debts, debts[0]);
+
+    expect(debts[0].bal).toBe('0.00');
 
   });
 
   it('should take remaining funds of last payment, and apply to next non zero debt', function(){
-    var totalBal, debtbal1;
+    var totalBal, debtBal1, surplusMoney, monthlyInterest;
+
+    debts[0].bal = 1;
     addSummaryProperties(debts);
     getTotalBal(debts);
 
-    debts[0].bal = 1;
-    debtbal1.bal = debts[1].bal;
+    
+    debtBal1 = debts[1].bal;
     totalBal = debts.totalBal;
 
-    extraPayment =  calculateMonthlyInterest(debts[0]) - debts[0].payment;
+    monthlyInterest = calculateMonthlyInterest(debts[0]);
 
-    makeMonthyPayments(debts, debt);
-    expect(debts[0].bal).toBe(0);
-    expect(debts[1].bal).toBe(debtbal1 - extraPayment);
+
+    surplusMoney =  (debts[0].payment)  - debts[0].bal;
+    expect(surplusMoney).toBeGreaterThan(0);
+
+    /*surplus money bypasses interest since paid out of cycle*/
+    makeMonthlyPayment(debts, debts[0]);
+    expect(parseInt(debts[0].bal)).toBe(0);
+    expect(debts[1].bal).toBe(debtBal1 - surplusMoney);
 
     expect(debts.totalBal).toBe(totalBal - debts[0].payment);
 
   });
 
-  it('should only pay remaning bal and nothing else if debt list has been completely paid off', function(){
-    var totalBal, debtbal1;
+  it('should allocate surplus money left over after final payment of debt to another non zero debt', function() {
+    var surplus, debtBal1, totalBal;
+
+    debts[0].bal = 1;
+
     addSummaryProperties(debts);
     getTotalBal(debts);
+
+    
+    debts[0].payment = 11;
+
+    surplus = 10;
+    debtBal1 = debts[1].bal;
+    totalBal = debts.totalBal;
+    debts[0].bal = 0;
+
+    allocateSurplusPayment(debts, surplus);
+    expect(debts[1].bal).toBe(debtBal1 - surplus);
+    expect(debts.totalBal).toBe(totalBal - surplus);
+  });
+
+  it('should not pay more than remaning bal if entire debt list has been completely paid off', function(){
+    var totalBal, debtbal1;
+    addSummaryProperties(debts);
 
     debts[0].bal = 1;
     debts[1].bal = 0;
     debts[2].bal = 0;
 
-    extraPayment =  calculateMonthlyInterest(debts[0]) - debts[0].payment;
+    getTotalBal(debts);
 
-    makeMonthyPayments(debts, debt);
-    expect(debts[0].bal).toBe(1);
-    expect(debts[1].bal).toBe(0);
-    expect(debts[2].bal).toBe(0);
+    makeMonthlyPayment(debts, debts[0]);
+    expect(parseInt(debts[0].bal)).toBe(0);
+    expect(parseInt(debts[1].bal)).toBe(0);
+    expect(parseInt(debts[2].bal)).toBe(0);
 
-    expect(debts.totalBal).toBe(0).payment);
+    expect(parseInt(debts.totalBal)).toBe(0);
     expect(debts.totalPaid).toBe(1);
 
   });

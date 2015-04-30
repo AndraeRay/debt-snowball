@@ -25,10 +25,10 @@ function getTotalBal(list){
 * @param {number} payment - the payment amount
 *
 */
-function recordPayment(list, idx, payment){
-	list[idx].totalPaid += payment;
-	list[idx].months += 1;
-	list.months = list[idx].months > list.months ? list[idx].months : list.months;
+function recordPayment(list, debt, payment){
+	debt.totalPaid += payment;
+	debt.months += 1;
+	list.months = debt.months > list.months ? debt.months : list.months;
 	list.totalPaid += payment;
 }
 
@@ -144,17 +144,49 @@ function iterateMonths(list){
 			var debt = list[i];
 			if (debt.bal > 0){
 				addMonthlyInterest(list, debt);
-				payment = debt.payment;
-				if (debt.bal - payment < 0){
-					isFinalPayment = true;
-					payment = debt.bal;
-				}
-				debt.bal -= payment;
-				list.totalBal -= payment;
-				recordPayment(list, i, payment);
-				if(isFinalPayment) {
-					allocateExtraMoney(list, debt.payment);
-					isFinalPayment = false;
+				makeMonthlyPayment(list, debt);
+			}
+		}
+	}
+
+}
+
+function makeMonthlyPayment(list, debt) {
+	var payment, isFinalPayment, surplus;
+		// console.log('total bal ctrl', list.totalBal)
+
+	payment = debt.payment;
+	if (debt.bal - payment < 0){
+		isFinalPayment = true;
+		payment = debt.bal;
+		surplus = debt.payment - payment
+	}
+	debt.bal = (debt.bal - payment).toFixed(2);
+	list.totalBal = (list.totalBal - payment).toFixed(2);
+	recordPayment(list, debt, payment);
+	if(isFinalPayment) {
+		allocateExtraMoney(list, debt.payment);
+		allocateSurplusPayment(list, surplus);
+		isFinalPayment = false;
+
+	}
+}
+
+function allocateSurplusPayment(list, surplus){
+	var secondSurplus, debt;
+	if (list.totalBal > 0) {
+		for(var i=0; i<list.length; i++){
+			debt = list[i];
+			if (debt.bal > 0) {
+				if (debt.bal - surplus > 0) {
+					debt.bal -= surplus;
+					list.totalBal -= surplus;
+					break;
+				} else {
+					secondSurplus = abs(debt.bal - surplus);
+					debt.bal -= (surplus - secondSurplus);
+					list.totalBal -= surplus;
+					allocateSurplusPayment(list, secondSurplus)
 				}
 			}
 		}
