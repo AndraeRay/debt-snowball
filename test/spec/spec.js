@@ -34,6 +34,45 @@ describe("Debt calculator", function() {
       }
     ];
 
+    debtsV2 = [
+      {
+        "name"        : 'Chase',
+        "bal"         : 2466.36,
+        "payment"     : 39,
+        "totalInterestPaid" : 0,
+        "totalPaid"     : 0,
+        "months"      : 0,
+        "intRate"     : 15.99
+      },
+      {
+        "name"        : 'Gardner',
+        "bal"         : 72.36,
+        "payment"     : 35,
+        "totalInterestPaid" : 0,
+        "totalPaid"     : 0,
+        "months"      : 0,
+        "intRate"     : 17.24
+      },
+      {
+        "name"        : 'Toyota',
+        "bal"         : 15000,
+        "payment"     : 425.10,
+        "totalInterestPaid" : 0,
+        "totalPaid"     : 0,
+        "months"      : 0,
+        "intRate"     : 16
+      },
+      {
+        "name"        : 'AMEX',
+        "bal"         : 72.36,
+        "payment"     : 35,
+        "totalInterestPaid" : 0,
+        "totalPaid"     : 0,
+        "months"      : 0,
+        "intRate"     : 17.24
+      }
+    ];
+
   });
 
   it("should round hundreth place up to the nearest tenth", function() {
@@ -53,17 +92,19 @@ describe("Debt calculator", function() {
   });
 
   it('is able to sort by highest Interest', function(){
-    debts.sort(compareInterest);
-    expect(debts[0].name).toBe('AMEX');
-    expect(debts[1].name).toBe('Toyota');
-    expect(debts[2].name).toBe('Chase');
+    debtsV2.sort(compareInterest);
+    expect(debtsV2[0].name).toBe('Gardner');
+    expect(debtsV2[1].name).toBe('AMEX');
+    expect(debtsV2[2].name).toBe('Toyota');
+    expect(debtsV2[3].name).toBe('Chase');
   });
 
   it('is able to sort by lowest amount', function(){
-    debts.sort(compareBal);
-    expect(debts[0].name).toBe('AMEX');
-    expect(debts[1].name).toBe('Chase');
-    expect(debts[2].name).toBe('Toyota');
+    debtsV2.sort(compareBal);
+    expect(debtsV2[0].name).toBe('Gardner');
+    expect(debtsV2[1].name).toBe('AMEX');
+    expect(debtsV2[2].name).toBe('Chase');
+    expect(debtsV2[3].name).toBe('Toyota');
   });
 
   it('should calculate the monthly interest due on an account', function(){
@@ -77,16 +118,27 @@ describe("Debt calculator", function() {
 
   });
 
-  it('should get the total balance owed for all debts in object', function(){
-    addSummaryProperties(debts);
-    getTotalBal(debts);
-    expect(debts.totalBal).toBe(17538.72);
+  describe('it should keep summary information about entire debt list', function(){
 
-    addSummaryProperties(debts);
-    debts[1].bal = 20000;
-    getTotalBal(debts);
-    expect(debts.totalBal).toBe(22538.72);
-  });
+    it('should get the total balance owed for all debts in object', function(){
+      addSummaryProperties(debts);
+      getTotalBal(debts);
+      expect(debts.totalBal).toBe(17538.72);
+
+      addSummaryProperties(debts);
+      debts[1].bal = 20000;
+      getTotalBal(debts);
+      expect(debts.totalBal).toBe(22538.72);
+    });
+
+    it('should record total months required to pay off all debts', function(){
+
+      expect('this').toBe('this to be tested');
+    })
+
+  })
+
+
 
   it('should allocate money to the first debt with a balance greater than zero', function(){
     expect(debts[0].payment).toBe(39);
@@ -216,6 +268,28 @@ describe("Debt calculator", function() {
     allocateSurplusPayment(debts, surplus);
     expect(debts[1].bal).toBe(debtBal1 - surplus);
     expect(debts.totalBal).toBe(totalBal - surplus);
+  });
+
+  it('should not allocate surplus money if debts are paid with minimum payment strategy', function() {
+    var surplus, debtBal1, totalBal;
+    debts.payMinimum = true;
+
+    debts[0].bal = 1;
+
+    addSummaryProperties(debts);
+    getTotalBal(debts);
+
+    
+    debts[0].payment = 11;
+
+    surplus = 10;
+    debtBal1 = debts[1].bal;
+    totalBal = debts.totalBal;
+    debts[0].bal = 0;
+
+    allocateSurplusPayment(debts, surplus);
+    expect(debts[1].bal).toBe(debtBal1);
+    expect(debts.totalBal).toBe(totalBal);
   });
 
   it('should not pay more than remaning bal if entire debt list has been completely paid off', function(){
