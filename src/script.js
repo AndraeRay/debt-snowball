@@ -28,7 +28,7 @@ function getTotalBal(list){
 function recordPayment(list, debt, payment){
 	debt.totalPaid += payment;
 	debt.months += 1;
-	list.months = debt.months > list.months ? debt.months : list.months;
+	list.months = debt.months;
 	list.totalPaid += payment;
 }
 
@@ -136,7 +136,12 @@ function addMonthlyInterest(list, debt){
 	debt.totalInterestPaid += monthlyInterest;
 }
 
-
+/**
+* @description Iterates through all non zero debts, while the debt list total balance is greater than zero
+* it calls functions to add monthly interest and make monthly payments. Each interation represents a month.
+* @param {object} list - The list of debts
+*
+*/
 function iterateMonths(list){
 	var payment, monthlyInterest, isFinalPayment;
 	while(list.totalBal - 0.5 > 0){

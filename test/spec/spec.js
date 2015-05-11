@@ -312,6 +312,30 @@ describe("Debt calculator", function() {
 
   });
 
+  it('should iterate though all debts, and call functions to add interest and make payments', function(){
+    addSummaryProperties(debts);
+    getTotalBal(debts);
+    spyOn(window, 'addMonthlyInterest').and.callThrough();
+    spyOn(window, 'makeMonthlyPayment').and.callThrough();
+    iterateMonths(debts);
+    expect(totalBal).toBeGreaterThan(0);
+    expect(window.addMonthlyInterest).toHaveBeenCalled();
+    expect(window.makeMonthlyPayment).toHaveBeenCalled();
+  });
+
+  it('should not iterate though debts if debt list balance is zero', function(){
+    addSummaryProperties(debts);
+    getTotalBal(debts);
+    debts.totalBal = 0;
+    spyOn(window, 'addMonthlyInterest').and.callThrough();
+    spyOn(window, 'makeMonthlyPayment').and.callThrough();
+    iterateMonths(debts);
+    expect(window.addMonthlyInterest).not.toHaveBeenCalled();
+    expect(window.makeMonthlyPayment).not.toHaveBeenCalled();
+  });
+
+
+
   describe("Display features", function(){
     it('can convert months into years and months', function(){
       var units, AR;
