@@ -332,9 +332,16 @@ describe("Debt calculator", function() {
     iterateMonths(debts);
     expect(window.addMonthlyInterest).not.toHaveBeenCalled();
     expect(window.makeMonthlyPayment).not.toHaveBeenCalled();
+
+    debts[0].bal = 0;
+    debts[1].bal = 0;
+    debts[2].bal = 0;
+    debts.totalBal = 100;
+
+    iterateMonths(debts);
+    expect(addMonthlyInterest).not.toHaveBeenCalled();
+    expect(makeMonthlyPayment).not.toHaveBeenCalled();
   });
-
-
 
   describe("Display features", function(){
     it('can convert months into years and months', function(){

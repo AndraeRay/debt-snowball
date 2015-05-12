@@ -143,8 +143,8 @@ function addMonthlyInterest(list, debt){
 *
 */
 function iterateMonths(list){
-	var payment, monthlyInterest, isFinalPayment;
-	while(list.totalBal - 0.5 > 0){
+	var months = 0;
+	while((list.totalBal - 0.5 > 0) && (months < 1200)){
 		for (var i = 0; i < list.length; i ++){
 			var debt = list[i];
 			if (debt.bal > 0){
@@ -152,8 +152,8 @@ function iterateMonths(list){
 				makeMonthlyPayment(list, debt);
 			}
 		}
+		months++;
 	}
-
 }
 
 function makeMonthlyPayment(list, debt) {
