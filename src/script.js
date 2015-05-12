@@ -156,6 +156,16 @@ function iterateMonths(list){
 	}
 }
 
+/**
+* Makes a monthly payment for a specific debt in the list. If debt is paid off, it calls functions to handle surplus
+* and extra money from monthly payment
+* @param {object} debt - The debt that will receive monthly payment
+* @param {number} debt.bal - The balance of the debt
+* @param {number} debt.payment - The monthly payment amount
+* @param {object} list - The debt list
+* @param {number} list.totalBal - The total balance of the debtList
+*
+*/
 function makeMonthlyPayment(list, debt) {
 	var payment, isFinalPayment, surplus;
 		// console.log('total bal ctrl', list.totalBal)
@@ -173,7 +183,6 @@ function makeMonthlyPayment(list, debt) {
 		allocateExtraMoney(list, debt.payment);
 		allocateSurplusPayment(list, surplus);
 		isFinalPayment = false;
-
 	}
 }
 
