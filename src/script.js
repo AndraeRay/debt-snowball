@@ -222,9 +222,9 @@ function addSummaryProperties(list){
 	list.months = 0;
 }
 
-function runSimulation(list, method, extraMoney, payMinimum){
+function runSimulation(list, method, extraMoney){
 	var summaryList = JSON.parse( JSON.stringify( list ) );
-	summaryList.payMinimum = payMinimum;
+	summaryList.payMinimum = false;
 	addSummaryProperties(summaryList);
 
 	getTotalBal(summaryList);
@@ -236,6 +236,7 @@ function runSimulation(list, method, extraMoney, payMinimum){
 			summaryList.sort(compareBal);
 			break;
 		default :
+			summaryList.payMinimum = true;
 			extraMoney = 0;
 	}
 
@@ -270,9 +271,9 @@ function mySubmit (item) {
     extraMoney = $('#extraMoney').val() || 0;
     extraMoney = parseInt(extraMoney);
       
-	var interestFirst = runSimulation(debtList,'interest', extraMoney, false);
-	var balanceFirst = runSimulation(debtList,'balance', extraMoney, false);
-	var minimum = runSimulation(debtList,'', 0, true);
+	var interestFirst = runSimulation(debtList,'interest', extraMoney);
+	var balanceFirst = runSimulation(debtList,'balance', extraMoney);
+	var minimum = runSimulation(debtList,'', 0);
 
 	displayResults('interest-first', interestFirst);
 	displayResults('balance-first', balanceFirst);

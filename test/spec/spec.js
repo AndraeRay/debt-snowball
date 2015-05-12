@@ -73,6 +73,18 @@ describe("Debt calculator", function() {
       }
     ];
 
+    debtsV3 = [
+      {
+        "name"        : 'auto',
+        "bal"         : 3765,
+        "payment"     : 325.77,
+        "totalInterestPaid" : 0,
+        "totalPaid"     : 0,
+        "months"      : 0,
+        "intRate"     : 7.00
+      }
+    ];
+
   });
 
   it("should round hundreth place up to the nearest tenth", function() {
@@ -341,6 +353,18 @@ describe("Debt calculator", function() {
     iterateMonths(debts);
     expect(addMonthlyInterest).not.toHaveBeenCalled();
     expect(makeMonthlyPayment).not.toHaveBeenCalled();
+  });
+
+  it('should pay off a list of one loan equally for all three method of payment with no extra money paid', function (){
+    var interestFirst, balanceFirst, minimum, EXTRA_MONEY;
+    EXTRA_MONEY = 0;
+
+    interestFirst = runSimulation(debtsV3, 'interest', EXTRA_MONEY);
+    balanceFirst = runSimulation(debtsV3, 'balance', EXTRA_MONEY);
+    minimum = runSimulation(debtsV3, 'balance', EXTRA_MONEY);
+
+    expect(interestFirst.totalPaid).toBe(balanceFirst.totalPaid);
+    expect(balanceFirst.totalPaid).toBe(minimum.totalPaid);
   });
 
   describe("Display features", function(){
