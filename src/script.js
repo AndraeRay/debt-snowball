@@ -273,7 +273,7 @@ function mySubmit (item) {
       
 	var interestFirst = runSimulation(debtList,'interest', extraMoney);
 	var balanceFirst = runSimulation(debtList,'balance', extraMoney);
-	var minimum = runSimulation(debtList,'', 0);
+	var minimum = runSimulation(debtList,'minimum', 0);
 
 	displayResults('interest-first', interestFirst);
 	displayResults('balance-first', balanceFirst);

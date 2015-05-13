@@ -77,7 +77,40 @@ describe("Debt calculator", function() {
       {
         "name"        : 'auto',
         "bal"         : 3765,
-        "payment"     : 325.77,
+        "payment"     : 116.25,
+        "totalInterestPaid" : 0,
+        "totalPaid"     : 0,
+        "months"      : 0,
+        "intRate"     : 7.00
+      }
+    ];
+
+    debtsV4 = [
+      {
+        "name"        : 'Capital 1',
+        "bal"         : 5000,
+        "payment"     : 372.96,
+        "totalInterestPaid" : 0,
+        "totalPaid"     : 0,
+        "months"      : 0,
+        "intRate"     : 7.00
+      },
+      {
+        "name"        : 'Toyota',
+        "bal"         : 15000,
+        "payment"     : 425.10,
+        "totalInterestPaid" : 0,
+        "totalPaid"     : 0,
+        "months"      : 0,
+        "intRate"     : 16
+      }
+    ];
+
+    debtsV5 = [
+      {
+        "name"        : 'random',
+        "bal"         : 10936.42,
+        "payment"     : 798.46,
         "totalInterestPaid" : 0,
         "totalPaid"     : 0,
         "months"      : 0,
@@ -145,7 +178,12 @@ describe("Debt calculator", function() {
 
     it('should record total months required to pay off all debts', function(){
 
-      expect('this').toBe('this to be tested');
+      var interestFirst, EXTRA_MONEY;
+      EXTRA_MONEY = 0;
+
+      interestFirst = runSimulation(debtsV4, 'balance', EXTRA_MONEY);
+      expect(interestFirst.months).toBe(interestFirst[1].months);
+      expect(interestFirst.months).toBeGreaterThan(interestFirst[0].months);
     })
 
   })
@@ -361,10 +399,52 @@ describe("Debt calculator", function() {
 
     interestFirst = runSimulation(debtsV3, 'interest', EXTRA_MONEY);
     balanceFirst = runSimulation(debtsV3, 'balance', EXTRA_MONEY);
-    minimum = runSimulation(debtsV3, 'balance', EXTRA_MONEY);
+    minimum = runSimulation(debtsV3, 'minimum', EXTRA_MONEY);
 
     expect(interestFirst.totalPaid).toBe(balanceFirst.totalPaid);
     expect(balanceFirst.totalPaid).toBe(minimum.totalPaid);
+
+    expect(moneyRound(interestFirst.totalPaid)).toBe(4186.69);
+
+    expect(interestFirst.months).toBe(37);
+    expect(balanceFirst.months).toBe(37);
+    expect(minimum.months).toBe(37);
+
+    // compared with bankrate auto calculator- of 3 year loan. 1 extra month is due to frequency of compounding interest
+    // bal 3765, 36 mo, 7% interest
+  });
+
+  it('should pay off a loan quicker when extra money is applied', function(){
+    var interestFirst, balanceFirst, minimum, EXTRA_MONEY;
+    EXTRA_MONEY = 209.52; //enough money to convert a 3 year term to 1 year term, see bankrate
+
+    interestFirst = runSimulation(debtsV3, 'interest', EXTRA_MONEY);
+    balanceFirst = runSimulation(debtsV3, 'balance', EXTRA_MONEY);
+    minimum = runSimulation(debtsV3, 'minimum', EXTRA_MONEY);
+
+    expect(interestFirst.totalPaid).toBe(balanceFirst.totalPaid);
+    expect(minimum.totalPaid).toBe(4186.69);
+
+    expect(moneyRound(interestFirst.totalPaid)).toBe(3909.8);
+
+    expect(interestFirst.months).toBe(13);
+    expect(balanceFirst.months).toBe(13);
+    expect(minimum.months).toBe(37);
+  });
+
+  it('should pay off a list of more than 1 loan', function(){
+    //first loan gets paid off in 15 months and adds payment to second loan to make it become
+    // bal 10936.42, int rate 7, payment 798.06, the conditions from debtsV5
+    var standAlone, EXTRA_MONEY;
+    debts.pop(2);
+    EXTRA_MONEY = 0;
+    interestFirst = runSimulation(debtsV4, 'interest', EXTRA_MONEY);
+    standAlone = runSimulation(debtsV5, 'interest', EXTRA_MONEY);
+
+    expect(standAlone.months).toBe(15);
+    expect(interestFirst.months).toBe(31);
+
+
   });
 
   describe("Display features", function(){
