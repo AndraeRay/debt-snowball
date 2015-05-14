@@ -187,23 +187,29 @@ function makeMonthlyPayment(list, debt) {
 }
 
 function allocateSurplusPayment(list, surplus){
-	var secondSurplus, debt;
+	var remainingSurplus, debt;
 	if (list.payMinimum){
 		return;
 	}
 	if (list.totalBal > 0) {
 		for(var i=0; i<list.length; i++){
 			debt = list[i];
-			if (debt.bal > 0) {
+			if (debt.bal > 0.1) {
 				if (debt.bal - surplus > 0) {
 					debt.bal -= surplus;
 					list.totalBal -= surplus;
+					list.totalPaid += surplus;
+					debt.totalPaid += surplus;
 					break;
 				} else {
-					secondSurplus = Math.abs(debt.bal - surplus);
-					debt.bal -= (surplus - secondSurplus);
-					list.totalBal -= (surplus - secondSurplus);
-					allocateSurplusPayment(list, secondSurplus)
+					remainingSurplus = surplus - debt.bal;
+					console.log(remainingSurplus);
+					debt.bal -= (surplus - remainingSurplus);
+					list.totalBal -= (surplus - remainingSurplus);
+					list.totalPaid += (surplus - remainingSurplus);
+					debt.totalPaid += (surplus - remainingSurplus);;
+					allocateSurplusPayment(list, remainingSurplus);
+					break;
 				}
 			}
 		}

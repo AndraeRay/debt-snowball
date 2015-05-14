@@ -342,6 +342,40 @@ describe("Debt calculator", function() {
     expect(debts.totalBal).toBe(totalBal);
   });
 
+  it('should pay all of the surplus if there are non zero debts remaining, when sorted by balance', function() {
+    var payment, listBalStart, initialDebts;
+    debts.sort(compareBal);
+    debts[0].bal = 0;
+    debts[1].bal = 10;
+
+    initialDebts = JSON.parse(JSON.stringify(debts));
+
+    addSummaryProperties(debts);
+    getTotalBal(debts);
+
+    addSummaryProperties(initialDebts);
+    getTotalBal(initialDebts);
+
+    payment = debts[0].payment;
+
+    expect(payment).toBe(35);
+  
+
+    allocateSurplusPayment(debts, payment);
+
+
+    expect(debts[1].bal).toBe(0);
+    expect(debts[2].bal).toBe(initialDebts[2].bal - 25);
+    expect(debts.totalBal).toBe(initialDebts.totalBal - payment );
+
+    expect(debts.totalPaid).toBe(initialDebts.totalPaid + 35);
+    expect(debts[1].totalPaid).toBe(10);
+    expect(debts[2].totalPaid).toBe(25);
+
+
+
+  })
+
   it('should not pay more than remaning bal if entire debt list has been completely paid off', function(){
     var totalBal, debtbal1;
     addSummaryProperties(debts);
@@ -358,7 +392,7 @@ describe("Debt calculator", function() {
     expect(parseInt(debts[2].bal)).toBe(0);
 
     expect(parseInt(debts.totalBal)).toBe(0);
-    expect(debts.totalPaid).toBe(1);
+    expect(debts.totalPaid).toBe(2);
 
   });
 
