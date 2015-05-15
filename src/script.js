@@ -45,7 +45,7 @@ function allocateExtraMoney(list, extraMoney){
 	}
 	for (var i = 0; i < list.length; i++) {
 		var debt = list[i];
-		if (debt.bal > 0){
+		if (debt.bal > 0.1){
 			debt.payment += extraMoney;
 			break;
 		}
@@ -171,7 +171,7 @@ function makeMonthlyPayment(list, debt) {
 		// console.log('total bal ctrl', list.totalBal)
 
 	payment = debt.payment;
-	if (debt.bal - payment < 0){
+	if (debt.bal - payment < 0.1){
 		isFinalPayment = true;
 		payment = debt.bal;
 		surplus = debt.payment - payment
@@ -203,10 +203,10 @@ function allocateSurplusPayment(list, surplus){
 					break;
 				} else {
 					remainingSurplus = surplus - debt.bal;
-					debt.bal -= (surplus - remainingSurplus);
-					list.totalBal -= (surplus - remainingSurplus);
-					list.totalPaid += (surplus - remainingSurplus);
-					debt.totalPaid += (surplus - remainingSurplus);
+					list.totalBal -= debt.bal
+					list.totalPaid += debt.bal
+					debt.totalPaid += debt.bal
+					debt.bal = 0;
 					allocateExtraMoney(list, debt.payment);
 					allocateSurplusPayment(list, remainingSurplus);
 					break;
