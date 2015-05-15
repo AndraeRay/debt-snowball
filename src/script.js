@@ -203,11 +203,11 @@ function allocateSurplusPayment(list, surplus){
 					break;
 				} else {
 					remainingSurplus = surplus - debt.bal;
-					console.log(remainingSurplus);
 					debt.bal -= (surplus - remainingSurplus);
 					list.totalBal -= (surplus - remainingSurplus);
 					list.totalPaid += (surplus - remainingSurplus);
-					debt.totalPaid += (surplus - remainingSurplus);;
+					debt.totalPaid += (surplus - remainingSurplus);
+					allocateExtraMoney(list, debt.payment);
 					allocateSurplusPayment(list, remainingSurplus);
 					break;
 				}
@@ -245,6 +245,7 @@ function runSimulation(list, method, extraMoney){
 			summaryList.payMinimum = true;
 			extraMoney = 0;
 	}
+
 
 	allocateExtraMoney(summaryList, extraMoney);
 	iterateMonths(summaryList);
@@ -284,6 +285,7 @@ function mySubmit (item) {
 	displayResults('interest-first', interestFirst);
 	displayResults('balance-first', balanceFirst);
 	displayResults('minimum', minimum);
+
 }
 
 function displayResults(method, list){

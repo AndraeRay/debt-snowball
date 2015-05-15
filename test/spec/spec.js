@@ -118,6 +118,49 @@ describe("Debt calculator", function() {
       }
     ];
 
+    debtsNK = [
+      {
+        "name"        : 'first',
+        "bal"         : 2400,
+        "payment"     : 240,
+        "totalPaid"   : 0,
+        "months"      : 0,
+        "intRate"     : 2
+      },
+      {
+        "name"        : 'second',
+        "bal"         : 750,
+        "payment"     : 50,
+        "totalPaid"   : 0,
+        "months"      : 0,
+        "intRate"     : 2.5
+      },
+      {
+        "name"        : 'third',
+        "bal"         : 1400,
+        "payment"     : 20,
+        "totalPaid"   : 0,
+        "months"      : 0,
+        "intRate"     : 3
+      },
+      {
+        "name"        : 'forth',
+        "bal"         : 5000,
+        "payment"     : 78,
+        "totalPaid"   : 0,
+        "months"      : 0,
+        "intRate"     : 4.5
+      },
+      {
+        "name"        : 'fifth',
+        "bal"         : 370,
+        "payment"     : 20,
+        "totalPaid"   : 0,
+        "months"      : 0,
+        "intRate"     : 1.5
+      }
+    ];
+
   });
 
   it("should round hundreth place up to the nearest tenth", function() {
@@ -480,6 +523,47 @@ describe("Debt calculator", function() {
 
 
   });
+
+  it('should pay off debts quicker when we add extra money', function() {
+    var EXTRA_MONEY, normalSim, extraMoneySim, basePay;
+    EXTRA_MONEY = 0;
+
+    function getTotalRecurring (list) {
+      var debt, totalRecurring;
+      totalRecurring = 0;
+      for (var i = 0; i < list.length; i++){
+        debt = list[i];
+        totalRecurring += debt.payment;
+      }
+      return totalRecurring;
+    }
+
+    function getMaxPayment (list) {
+      var max = 0;
+      for (var i = 0; i < list.length; i++){
+        debt = list[i];
+        if (debt.payment > max) {
+          max = debt.payment;
+        }
+      }
+      return max;
+    }
+
+    basePay = getTotalRecurring(debtsNK);
+    expect(basePay).toBe(408);
+
+    normalSim = runSimulation(debtsNK, 'balance', EXTRA_MONEY);
+    expect(getMaxPayment(normalSim)).toBe(basePay + EXTRA_MONEY);
+
+    EXTRA_MONEY = 100;
+    extraMoneySim = runSimulation(debtsNK, 'balance', EXTRA_MONEY);
+    expect(getMaxPayment(extraMoneySim)).toBe(basePay + EXTRA_MONEY)
+
+    expect(extraMoneySim.months).toBeLessThan(normalSim.months);
+    expect(extraMoneySim.totalPaid).toBeLessThan(normalSim.totalPaid);
+
+
+  })
 
   describe("Display features", function(){
     it('can convert months into years and months', function(){
