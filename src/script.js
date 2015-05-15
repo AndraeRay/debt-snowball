@@ -296,6 +296,7 @@ function displayResults(method, list){
 	now.setFullYear(now.getFullYear() + units.years);
 	now.setMonth(now.getMonth() + units.months - 1);
 	$('#results-container').show();
+	$('#original-bal').html(list.originalAmountOwed);
 	$container = $('#' + method);
 	$container.find('.total-paid').html(moneyRound(list.totalPaid));
 	$container.find('.total-months').html(units.years + ' year(s) and '+ units.months + ' month(s)' + ' -- ' + now.toDateString());
