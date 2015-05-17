@@ -296,10 +296,42 @@ function displayResults(method, list){
 	now.setFullYear(now.getFullYear() + units.years);
 	now.setMonth(now.getMonth() + units.months - 1);
 	$('#results-container').show();
-	$('#original-bal').html(list.originalAmountOwed);
+	$('#original-bal').html(formatCurrency(list.originalAmountOwed));
 	$container = $('#' + method);
-	$container.find('.total-paid').html(moneyRound(list.totalPaid));
+	$container.find('.total-paid').html(formatCurrency(moneyRound(list.totalPaid)));
 	$container.find('.total-months').html(units.years + ' year(s) and '+ units.months + ' month(s)' + ' -- ' + now.toDateString());
+}
+
+String.prototype.insert = function (index, string) {
+  if (index > 0)
+    return this.substring(0, index) + string + this.substring(index, this.length);
+  else
+    return string + this;
+};
+
+/**
+* Formats a number to include $ and commas for thousands
+* @param {number | string} input number. eg 5000
+* @returns {string} formatted version with $ and commas. $5,000
+*/
+function formatCurrency(input){
+	input = input.toString();
+	var lastWholeNumPos, decimalPos, length, baseTenPos;
+	length = input.length;
+	decimalPos = input.indexOf('.');
+	lastWholeNumPos = decimalPos > -1 ? decimalPos : input.length;
+
+	if (lastWholeNumPos < 4){
+		return input.insert(0, '$');
+	} else {
+		for (var i = lastWholeNumPos; i > 0; i--) {
+			baseTenPos = lastWholeNumPos - i;
+			if ( ( baseTenPos % 3 == 0)  && (baseTenPos > 0)) {
+				input = input.insert( i, ",");
+			}
+		}
+		return input.insert(0, '$');;
+	}
 }
 
 $(document).ready(function(){

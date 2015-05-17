@@ -609,6 +609,46 @@ describe("Debt calculator", function() {
       expect(units.years).toBe(5);
       expect(units.months).toBe(0);
     });
+
+    it('should format currency and add separators for thousands', function(){
+      var entries, entry;
+      entries = [
+        {
+          in: '200.13',
+          out: '$200.13'
+        },
+        {
+          in: '5000',
+          out: '$5,000'
+        },
+        {
+          in: '200',
+          out: '$200'
+        },
+        {
+          in: '10000.13',
+          out: '$10,000.13'
+        },
+        {
+          in: '54000',
+          out: '$54,000'
+        },
+        {
+          in: '200000.13',
+          out: '$200,000.13'
+        },
+        {
+          in: '1000000.13',
+          out: '$1,000,000.13'
+        },
+      ]
+
+      for(var i =0; i < entries.length; i++ ){
+        entry = entries[i];
+        expect(formatCurrency(entry.in)).toBe(entry.out);
+      }
+      
+    })
   });
 
   
