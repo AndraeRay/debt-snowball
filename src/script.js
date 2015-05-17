@@ -302,6 +302,22 @@ function displayResults(method, list){
 	$container.find('.total-months').html(units.years + ' year(s) and '+ units.months + ' month(s)' + ' -- ' + now.toDateString());
 }
 
+$(document).ready(function(){
+	$('#delete').on('click touch', function(el){
+		el.preventDefault();
+		if( $('table tr').length > 2) {
+			$('table tr:last').remove();
+		}
+	});
+
+	$('#add').on('click touch', function(el){
+		el.preventDefault();
+		$('table tbody').append( '<tr>' + $('table tr:last').html() + '</tr>');
+	});
+});
+
+
+
 var AR = (function() {
 
 	function unitsToPieces (smallUnit, bigUnit, amount, divisor){

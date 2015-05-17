@@ -563,7 +563,12 @@ describe("Debt calculator", function() {
     expect(extraMoneySim.totalPaid).toBeLessThan(normalSim.totalPaid);
 
 
-  })
+  });
+
+ it('should allocate tons of extra money', function () {
+  expect('this').toBe('tested');
+  //only add 1st months interest if allocation is huge
+ });
 
   describe("Display features", function(){
     it('can convert months into years and months', function(){

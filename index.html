@@ -14,6 +14,7 @@
 	}
 	#extra-money {
 		float: left;
+		clear: both;
 	}
 	#submit{
 		margin: 15px 30px 0;
@@ -26,6 +27,7 @@
 	#main-container {
 		max-width: 800px;
 		margin: 0 auto;
+		padding: 10px;
 	}
 	.method {
 		font-weight: bold;
@@ -45,6 +47,9 @@
 	#results-container {
 		display: none;
 		margin-bottom: 25px;
+	}
+	#row-control {
+		float: right;
 	}
 	</style>
 </head>
@@ -119,9 +124,13 @@
 						</tr>
 					</tbody>
 				</table>
+				<div id="row-control" data-role="controlgroup" data-type="horizontal">
+					<button id="add" data-mini="true" data-role="button" data-icon="plus">Add Row</button>
+					<button id="delete" data-mini="true" data-role="button" data-icon="delete">Delete Row</button>
+				</div>
 				<div id="extra-money"><span>Extra money</span><input id="extraMoney"type="number" name="extraMoney" value="0"></div>
 				<div id="submit-area">
-					<div id="submit"><input type="submit" value="calculate"></div>
+					<div id="submit"><input type="submit" value="calculate" data-icon="grid"></div>
 				</div>
 			</form>
 		</div>
