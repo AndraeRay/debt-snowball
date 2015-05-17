@@ -1,4 +1,4 @@
-version 1.0
+version 0.9
 
 # Debt-snowball
 This pagelet will calculate and display the length of time to pay off a list of debts, and the total amount paid.
