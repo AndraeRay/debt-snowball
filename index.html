@@ -27,7 +27,7 @@
 	#main-container {
 		max-width: 800px;
 		margin: 0 auto;
-		padding: 10px;
+		padding: 0 10px;
 	}
 	.method {
 		font-weight: bold;
@@ -55,6 +55,11 @@
 </head>
 <body>
 	<div id="main-container">
+		<section>
+			<h1> Debt Repayment Calculator </h1>
+			<p> This calculator compares the different methods of repaying debts. It approximates the difference in savings and time by paying debts aggressively vs. passively. </p>
+		</section>
+
 		<div id="results-container">
 			<section id="summary">Beginning Balance:
 				<span id="original-bal"> </span>
@@ -73,6 +78,8 @@
 				<span class="method">Minimum payment</span>
 				<span class="title"> Total Paid <span class="total-paid"></span></span>
 				<span class="title"> Time: <span class="total-months"></span></span>
+			</section>
+			<section>
 			</section>
 		</div>
 		<div id="entry-container">
